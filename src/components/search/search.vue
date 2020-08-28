@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <div>
+    <h1>搜素页</h1>
+  </div>
+</template>
 
 <script>
 </script>

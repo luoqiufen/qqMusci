@@ -1,9 +1,24 @@
 <template>
-  <div class="tab"></div>
+  <div class="tab">
+    <router-link v-for="(t,i) in tabs" :key="i" :to="t.link" class="tab-item">
+      <span class="tab-link"> {{ t.text }} </span>
+    </router-link>
+  </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data(){
+    return {
+      tabs: [
+        {link:'/recommend',text:'推荐'},
+        {link:'/singer',text:'歌手'},
+        {link:'/rank',text:'排行'},
+        {link:'/search',text:'搜索'}
+      ]
+    }
+  }
+}
 </script>
 
 <style scoped lang="stylus" >

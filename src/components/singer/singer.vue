@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <div>
+    <h1>歌手页</h1>
+  </div>
+</template>
 
 <script>
 </script>

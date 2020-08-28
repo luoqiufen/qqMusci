@@ -13,6 +13,7 @@ module.exports = merge(base, {
     overlay: {
       errors: true
     },
+    historyApiFallback:true,
     hot: true,
     proxy: {
     }
