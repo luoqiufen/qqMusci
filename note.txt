@@ -1,1 +1,23 @@
 qq音乐
+    1. 项目搭建
+        新建package.json, .babelrc, .gitigore以及webpack配置文件
+        修改其中部分内容
+        安装相关的依赖
+        在项目根目录下新建public和src文件夹
+        在src文件夹下新建
+            api/    封装请求数据接口的代码
+            base/   通用的基础组件
+            common/ 静态资源文件(已提供)
+            components/ 各种组件
+            router/ 路由
+            store/  状态管理
+            App.vue
+            main.js
+    
+    2. 将common文件夹内容复制进去,同时在common中新建js文件夹
+
+
+    3. 在main.js中引入各个模块并创建Vue实例对象
+        同时引入fastclick解决300ms延迟
+    
+    4. 引入全局样式

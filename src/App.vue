@@ -1,5 +1,15 @@
 <template>
   <div>
-    <h1>1111</h1>
+    <m-header></m-header>
   </div>
 </template>
+
+
+<script>
+import MHeader from './components/m-header/m-header'
+export default {
+  components:{
+    MHeader
+  }
+}
+</script>
