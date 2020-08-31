@@ -8,7 +8,7 @@
       <!-- 热门歌曲列表 -->
       <div class="recommend-list">
         <h1 class="list-title">热门歌曲推荐</h1>
-        <ul></ul>
+        <RecommendList></RecommendList>
       </div>
     </div>
   </div>
@@ -17,22 +17,28 @@
 <script>
 import Slider from '../../base/Slider/Slider'
 import recomm from '../../api/recommend'
+import RecommendList from './recommend-list'
 
 export default {
   data(){
     return {
-      slider:[1,2,3,4,5]
+      slider:[]
     }
   },
   components:{
-    Slider
+    Slider,
+    RecommendList
   },
   created(){
     this._getSlider()
   },
   methods:{
     _getSlider(){
-      recomm.getSlider();
+      recomm.getSlider().then(data => {
+        this.slider = data;
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }
