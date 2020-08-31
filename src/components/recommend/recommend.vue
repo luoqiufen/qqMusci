@@ -2,7 +2,9 @@
   <div class="recommend">
     <div class="recommend-content">
       <!-- 轮播图 -->
-      <div class="slider-wrapper"></div>
+      <div class="slider-wrapper">
+        <Slider :pics="slider"></Slider>
+      </div>
       <!-- 热门歌曲列表 -->
       <div class="recommend-list">
         <h1 class="list-title">热门歌曲推荐</h1>
@@ -13,6 +15,27 @@
 </template>
 
 <script>
+import Slider from '../../base/Slider/Slider'
+import recomm from '../../api/recommend'
+
+export default {
+  data(){
+    return {
+      slider:[1,2,3,4,5]
+    }
+  },
+  components:{
+    Slider
+  },
+  created(){
+    this._getSlider()
+  },
+  methods:{
+    _getSlider(){
+      recomm.getSlider();
+    }
+  }
+}
 </script>
 
 <style scoped lang="stylus" >

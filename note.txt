@@ -19,5 +19,52 @@ qq音乐
 
     3. 在main.js中引入各个模块并创建Vue实例对象
         同时引入fastclick解决300ms延迟
+        import fastclick from 'fastclick'
+        fastclick.attach(document.body)
     
     4. 引入全局样式
+        import './common/stylus/index'
+    
+    5. App.vue
+        项目的根组件，其中包含3个部分:
+            header,tab,content
+        header对应m-header组件
+        tab对应tab组件,里面包含4个路由
+        第三部分为router-view,表示4个路由对应组件的渲染出口
+
+        在router.js中配置这4个路由
+    
+    6. 推荐页
+        1) 轮播图
+        使用vant组件库
+        安装依赖：
+            cnpm i vant -S
+            cnpm i babel-plugin-import -D
+        将.babelrc文件修改为babelrc.config.js
+        同时修改其中的内容
+            "plugins": [
+                "@babel/plugin-transform-runtime",
+                ["import", {
+                    "libraryName": "vant",
+                    "libraryDirectory": "es",
+                    "style": true
+                }]
+            ]
+        在main.js中引入轮播图模块
+            import {Swipe,SwipeItem} from 'vant';
+            Vue.use(Swipe)
+            Vue.use(SwipeItem)
+        在base文件夹中创建slider/slider.vue轮播图组件
+            将素材中的slider代码复制进去
+            将class='slider-group'的div标签改为van-slider，同时修改其中的属性
+            将class='slider-item'的div标签改为van-slider-item
+        在script中定义props属性用于接收调用者传递过来的数据pics,在van-slider-item中遍历pics
+        最后在recommend组件中引入slider组件并调用
+
+
+
+
+    vant组件库
+    cnpm i vant -S
+    cnpm i babel-plugin-import -D
+    
