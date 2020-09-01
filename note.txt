@@ -1,87 +1,175 @@
 qq音乐
-    1. 项目搭建
-        新建package.json, .babelrc, .gitigore以及webpack配置文件
-        修改其中部分内容
-        安装相关的依赖
-        在项目根目录下新建public和src文件夹
-        在src文件夹下新建
-            api/    封装请求数据接口的代码
-            base/   通用的基础组件
-            common/ 静态资源文件(已提供)
-            components/ 各种组件
-            router/ 路由
-            store/  状态管理
-            App.vue
-            main.js
-    
-    2. 将common文件夹内容复制进去,同时在common中新建js文件夹
+1. 项目搭建
+    新建package.json, .babelrc, .gitigore以及webpack配置文件
+    修改其中部分内容
+    安装相关的依赖
+    在项目根目录下新建public和src文件夹
+    在src文件夹下新建
+        api/    封装请求数据接口的代码
+        base/   通用的基础组件
+        common/ 静态资源文件(已提供)
+        components/ 各种组件
+        router/ 路由
+        store/  状态管理
+        App.vue
+        main.js
+
+2. 将common文件夹内容复制进去,同时在common中新建js文件夹
 
 
-    3. 在main.js中引入各个模块并创建Vue实例对象
-        同时引入fastclick解决300ms延迟
-        import fastclick from 'fastclick'
-        fastclick.attach(document.body)
-    
-    4. 引入全局样式
-        import './common/stylus/index'
-    
-    5. App.vue
-        项目的根组件，其中包含3个部分:
-            header,tab,content
-        header对应m-header组件
-        tab对应tab组件,里面包含4个路由
-        第三部分为router-view,表示4个路由对应组件的渲染出口
+3. 在main.js中引入各个模块并创建Vue实例对象
+    同时引入fastclick解决300ms延迟
+    import fastclick from 'fastclick'
+    fastclick.attach(document.body)
 
-        在router.js中配置这4个路由
-    
-    6. 推荐页
-        1) 轮播图
-            使用vant组件库
-            安装依赖：
-                cnpm i vant -S
-                cnpm i babel-plugin-import -D
-            将.babelrc文件修改为babelrc.config.js
-            同时修改其中的内容
-                "plugins": [
-                    "@babel/plugin-transform-runtime", 
-                        "libraryName": "vant",
-                        "libraryDirectory": "es",
-                        "style": true
+4. 引入全局样式
+    import './common/stylus/index'
+
+5. App.vue
+    项目的根组件，其中包含3个部分:
+        header,tab,content
+    header对应m-header组件
+    tab对应tab组件,里面包含4个路由
+    第三部分为router-view,表示4个路由对应组件的渲染出口
+
+    在router.js中配置这4个路由
+
+6. 推荐页
+    1) 轮播图
+        使用vant组件库
+        安装依赖：
+            cnpm i vant -S
+            cnpm i babel-plugin-import -D
+        将.babelrc文件修改为babelrc.config.js
+        同时修改其中的内容
+            "plugins": [
+                "@babel/plugin-transform-runtime", 
+                    "libraryName": "vant",
+                    "libraryDirectory": "es",
+                    "style": true
+                }]
+            ]
+        在main.js中引入轮播图模块
+            import {Swipe,SwipeItem} from 'vant';
+            Vue.use(Swipe)
+            Vue.use(SwipeItem)
+        在base文件夹中创建slider/slider.vue轮播图组件
+            将素材中的slider代码复制进去
+            将class='slider-group'的div标签改为van-slider，同时修改其中的属性
+            将class='slider-item'的div标签改为van-slider-item
+        在script中定义props属性用于接收调用者传递过来的数据pics,在van-slider-item中遍历pics
+        最后在recommend组件中引入slider组件并调用
+
+        获取数据
+            在recommend组件创建成功时,发送Ajax请求获取数据
+            created中调用methods定义的获取数据的方法
+            methods中定义获取数据的方法,嗲用api里封装的发送请求的方法
+            在api中新建recommend.js,用于发送推荐页数据的请求
+                getSlider获取轮播图
+                使用axios发送异步请求并返回promise对象
+                但是产生跨域问题(使用proxy代理)
+                在webpack配置文件中的devServer选项中设置proxy选项
+                    [{
+                        context: ["/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg"],
+                        target:"http://c.y.qq.com/",
+                        changeOrigin:true
                     }]
-                ]
-            在main.js中引入轮播图模块
-                import {Swipe,SwipeItem} from 'vant';
-                Vue.use(Swipe)
-                Vue.use(SwipeItem)
-            在base文件夹中创建slider/slider.vue轮播图组件
-                将素材中的slider代码复制进去
-                将class='slider-group'的div标签改为van-slider，同时修改其中的属性
-                将class='slider-item'的div标签改为van-slider-item
-            在script中定义props属性用于接收调用者传递过来的数据pics,在van-slider-item中遍历pics
-            最后在recommend组件中引入slider组件并调用
+                修改后重启服务
+            解析数据,返回轮播图数组,将其赋值给recommend.vue组件中的slider属性,再调用Slider.vue组件时将slider属性传递给轮播图组件
+                <Slider :pics="slider"></Slider>
+    2) 热门歌曲推荐
+        请求地址
+        https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg
+        请求参数
+        {
+            picmid: 1
+            rnd: Math.random()
+            g_tk_new_20200303: 5381
+            g_tk: 5381
+            loginUin: 0
+            hostUin: 0
+            format: "json"
+            inCharset: "utf8"
+            outCharset: "utf-8"
+            notice: 0
+            platform: "yqq.json"
+            needNewCode: 0
+            categoryId: 10000000
+            sortId: 5
+            sin: 0
+            ein: 19
+        }
+        跨域请求使用proxy代理的方式，
+            proxy: {
+                context: [url,url,url,...],
+                target: "https://c.y.qq.com/",
+                changeOrigin: true,
+                header: {
+                    host: 'c.y.qq.com',
+                    referer: "https://c.y.qq.com"
+                }
+            }
+        在recommend.vue组件中调用recommend-list.vue组件
+        recom-list组件创建成功后执行获取数据的方法，该方法在methods中定义，实际获取数据的请求由recommend.js发送
+        获取到数据后将数据解析并赋值给recom-list组件中的数据
+    3) 滚动效果
+        vant组件库中的List组件
+        使用better-scroll(1.15.2版本)组件
+        因为滚动效果在其他地方也会多次使用，所以讲滚动效果单独封装成一个独立的通用基础组件
+            在src下新建文件base/scroll/scroll.vue
+            模板中只有一个插槽
+            定义initScroll方法初始化scroll对象
+            然后在mounted中调用初始化方法
+            scroll对象必须在页面渲染成功后才可以创建，所以初始化方法需要写在this.$nextTick中以保证是在页面渲染结束后执行的
 
-            获取数据
-                在recommend组件创建成功时,发送Ajax请求获取数据
-                created中调用methods定义的获取数据的方法
-                methods中定义获取数据的方法,嗲用api里封装的发送请求的方法
-                在api中新建recommend.js,用于发送推荐页数据的请求
-                    getSlider获取轮播图
-                    使用axios发送异步请求并返回promise对象
-                    但是产生跨域问题(使用proxy代理)
-                    在webpack配置文件中的devServer选项中设置proxy选项
-                        [{
-                            context: ["/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg"],
-                            target:"http://c.y.qq.com/",
-                            changeOrigin:true
-                        }]
-                    修改后重启服务
-                解析数据,返回轮播图数组,将其赋值给recommend.vue组件中的slider属性,再调用Slider.vue组件时将slider属性传递给轮播图组件
-                    <Slider :pics="slider"></Slider>
-        2) 热门歌曲推荐
+7. 歌手页
+    歌手列表的数据
+        请求地址：/v8/fcg-bin/v8.fcg
+        请求参数:
+        {
+            g_tk: 5381,
+            format: 'json',
+            inCharset: 'utf8',
+            outCharset: 'utf-8',
+            notice: 0,
+            hostUin: 0,
+            needNewCode: 0,
+            platform: 'yqq.json',
+            page: 'list',
+            channel: 'singer',
+            key: 'all_all_all',
+            pagesize: 100,
+            pagenum: 1
+        }
+    使用axios发送请求获取数据(配置dev.js)
+    解析数据
+    [
+        {
+          hot:{
+              title:'热门',
+              singers:[{},{},{}]
+            }  
+        },
+        {
+          A:{
+              title:'A',
+              singers:[{},{},{}]
+             }  
+        },
+        {
+          B:{
+              title:'B',
+              singers:[{},{},{}]
+            }  
+        }
+    ]
 
 
 
     vant组件库
     cnpm i vant -S
     cnpm i babel-plugin-import -D
+
+    better-scroll
+    cnpm i better-scroll -S
     

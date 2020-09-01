@@ -2,7 +2,6 @@
     <div>
         <ul>
             <li v-for="(d,i) in list" :key="i" class="item">
-                
                 <div class="icon p-left p-right">
                     <img :src="d.imgurl" alt="" class="recom-img">
                 </div>
@@ -30,15 +29,14 @@ export default {
     methods:{
         _getDiss(){
             recomm.getDiss().then(data =>{
-                this.list = data
+                this.list = data;
             }).catch(err => {
                 console.log(err);
             })
-            
         }
     },
     created(){
-        this._getDiss()
+        this._getDiss();
     }
 }
 </script>
@@ -81,5 +79,4 @@ export default {
             color #888
           .desc
             color $color-text-d
-    
 </style>
