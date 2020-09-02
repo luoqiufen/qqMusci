@@ -16,7 +16,7 @@
         <div class="list-shortcut">
             <ul>
                 <li v-for="(item,i) in getIndex" :key="i" class="item">
-                    {{ i }}
+                    {{ item }}
                 </li>
             </ul>
         </div>
