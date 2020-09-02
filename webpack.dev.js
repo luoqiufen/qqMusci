@@ -19,7 +19,8 @@ module.exports = merge(base, {
       context:[
         "/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg",
         "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg",
-        "/v8/fcg-bin/v8.fcg"
+        "/v8/fcg-bin/v8.fcg",
+        "/v8/fcg-bin/fcg_v8_singer_track_cp.fcg"
       ],
       target:"https://c.y.qq.com/",
       changeOrigin:true,
@@ -27,6 +28,11 @@ module.exports = merge(base, {
         referer:"https://c.y.qq.com",
         host:"c.y.qq.com"
       }
-    }]
+    }],
+    before(app){
+      app.get('/singer/:id',(req,res)=>{
+        res.redirect('/singer')
+      })
+    }
   }
 })

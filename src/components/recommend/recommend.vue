@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import Slider from '../../base/Slider/Slider'
+import Slider from '../../base/slider/Slider'
 import recomm from '../../api/recommend'
 import RecommendList from './recommend-list'
-import Scroll from '../../base/Scroll/Scroll'
+import Scroll from '../../base/scroll/Scroll'
 
 export default {
   data(){

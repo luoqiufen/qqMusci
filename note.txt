@@ -164,12 +164,59 @@ qq音乐
         }
     ]
 
+    将解析的数据返回给singerView组件
+        在singerVie组件中的methods方法里定义获取数据的方法,然后在created中调用api的singer.js用于发送歌手页的相关请求,获取相关数据
+        最后将获取到的数据赋值给singerList属性,遍历渲染
+    字母导航部分:
+        使用computed过滤singerList数据,只返回给singerList中的key(ABCD...)
+        解析遍历key
+        给每一个key添加一个单击事件,用于触发滚动到对应key的歌手位置
+            通过调用scroll组件实例中的scrollElemnt方法实现
+            获取scroll实例: 在scroll标签中添加ref属性
+
+8. 歌手详情页
+    点击某个歌手,页面显示对应歌手的详细信息(歌手图片,歌手的歌曲列表)
+    在components下创建singerDetail组件
+    在base下创建基础组件musicList.vue和songList.vue
+    配置/singer的子路由,对应的就是singerDetail组件
+    点击SingerView组件中的歌手名称派发一个select事件给父组件singer,singer组件执行派发的事件(路由跳转)
+    路由跳转到singerDetail组件中,在该组件里获取singer相关的数据(可以使用路由参数进行传递)
+    使用状态管理
+        在store.js中的state定义singerInfo属性,同时定义getters和mutations
+    点击singerView组件中某个歌手,组件派发事件给父组件(singer),同时传递参数singer歌手信息(名字,头像,id)给singer组件
+    singer组件绑定派发的事件,在函数中奖派发过来的数据singer通过mutation保存进状态管理中,然后使用编程式导航跳转路由
+    同时在singer里设置router-view
+    路由触发singerDetail组件,在该组件中,使用getters获取保存的数据singer,然后用singer中的fid发送请求获取歌手歌曲的数据
+        url = '/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+        data = {
+            g_tk: 5381,
+            format: 'json',
+            inCharset: 'utf8',
+            outCharset: 'utf-8',
+            notice: 0,
+            hostUin: 0,
+            needNewCode: 0,
+            platform: 'yqq.json',
+            order: 'listen',
+            begin: 0,
+            num: 100,
+            songstatus: 1,
+            singermid: id
+        }
+    
+    获取到数据后开始解析数据,取其中有用的数据,将这些数据封装成一个单独的类classSong
+    遍历数据通过new的方式创建若干个Song对象
+    最终将所有的歌曲信息songs绑定传递给musicList组件
+    在musicList中解析接收到的数据,遍历显示,并引入SongList来帮助解析遍历所有的歌曲信息
+    在SongList中接收musicList绑定传递过来的数据songs
+
+ 
 
 
     vant组件库
     cnpm i vant -S
     cnpm i babel-plugin-import -D
 
-    better-scroll
-    cnpm i better-scroll -S
+    better-scroll 组件
+    cnpm i better-scroll -S 1.15.2版本
     

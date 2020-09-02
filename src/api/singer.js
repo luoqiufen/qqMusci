@@ -30,8 +30,36 @@ function getSingerList(){
     })
 }
 
+// 获取某歌手的歌曲列表
+function getSongList(id){
+    let  url = '/v8/fcg-bin/fcg_v8_singer_track_cp.fcg';
+    let data = {
+        g_tk: 5381,
+        format: 'json',
+        inCharset: 'utf8',
+        outCharset: 'utf-8',
+        notice: 0,
+        hostUin: 0,
+        needNewCode: 0,
+        platform: 'yqq.json',
+        order: 'listen',
+        begin: 0,
+        num: 100,
+        songstatus: 1,
+        singermid: id
+      }
+    return axios.get(url,{
+        params:data
+    }).then(res => {
+        return Promise.resolve(res.data.data.list)
+    }).catch(err => {
+        return Promise.reject(err);
+    })
+}
+
 export {
-    getSingerList
+    getSingerList,
+    getSongList
 }
 
 /**
@@ -53,7 +81,7 @@ function format(list){
             let singer = {};
             singer.fid = list[i].Fsinger_mid
             singer.fname = list[i].Fsinger_name
-            singer.avatar = `http://y.gtimg.cn/music/photo_new/T001R150x150M000${list[i].Fsinger_mid}.jpg?max_age=2592000`;
+            singer.avatar = `http://y.gtimg.cn/music/photo_new/T001R300x300M000${list[i].Fsinger_mid}.jpg?max_age=2592000`;
             data.hot.singers.push(singer);
         }
         // 取首字母,根据首字母分类
@@ -70,7 +98,7 @@ function format(list){
         data[key].singers.push({
             fid : list[i].Fsinger_mid,
             fname : list[i].Fsinger_name,
-            avatar : `http://y.gtimg.cn/music/photo_new/T001R150x150M000${list[i].Fsinger_mid}.jpg?max_age=2592000`
+            avatar : `http://y.gtimg.cn/music/photo_new/T001R300x300M000${list[i].Fsinger_mid}.jpg?max_age=2592000`
         })
     }
 
