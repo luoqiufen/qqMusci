@@ -95,6 +95,7 @@ export default {
     padding-top 70%
     transform-origin top
     background-size cover
+    z-index 45
     .play-wrapper
       position absolute
       bottom 20px
@@ -129,6 +130,7 @@ export default {
     bottom 0
     width 100%
     background #fff
+    // overflow hidden
     .song-list-wrapper
       padding 20px 30px
     .loading-container
