@@ -9,10 +9,13 @@
         <!-- 热门歌曲列表 -->
         <div class="recommend-list">
           <h1 class="list-title">热门歌曲推荐</h1>
-          <RecommendList></RecommendList>
+          <RecommendList @select="select"></RecommendList>
         </div>
       </div>
     </scroll>
+    <transition name="slide">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ import Slider from '../../base/slider/Slider'
 import recomm from '../../api/recommend'
 import RecommendList from './recommend-list'
 import Scroll from '../../base/scroll/Scroll'
+import {mapMutations} from 'vuex'
 
 export default {
   data(){
@@ -37,6 +41,7 @@ export default {
     this._getSlider();
   },
   methods:{
+    ...mapMutations(['setSingerInfo']),
     _getSlider(){
       recomm.getSlider().then(data => {
         this.slider = data;
@@ -44,6 +49,19 @@ export default {
         console.log(err)
       })
     },
+    select(d){
+      let {
+        dissid, 
+        imgurl, 
+        creator:{name}
+      } = d;
+      // 将数据设置到状态中
+      this.setSingerInfo({
+        singer: {dissid,imgurl,name}
+      })
+      // 路由跳转
+      this.$router.push(`/recommend/${dissid}`)
+    }
   }
 }
 </script>

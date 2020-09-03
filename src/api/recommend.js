@@ -45,8 +45,31 @@ function getDiss(){
     })
 }
 
+// 获取某个歌单里的歌曲列表
+function getDissSongs(dissid){
+    return axios.get("/getDiss",{
+        params:{dissid}
+    }).then(res => {
+        let list = res.data[0].songlist;
+        let data = [];
+        list.forEach(val => {
+            let {
+                album:{name:albumname},
+                singer,
+                name:songname,
+                mid
+            } = val
+            data.push({albumname,singer,songname,mid})
+        })
+        return Promise.resolve(data)
+    }).catch(err => {
+        return Promise.reject(err)
+    })
+}
+
 
 export default {
     getSlider,
-    getDiss
+    getDiss,
+    getDissSongs
 }

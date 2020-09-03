@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="(d,i) in list" :key="i" class="item">
+            <li v-for="(d,i) in list" :key="i" class="item" @click="select(d)">
                 <div class="icon p-left p-right">
                     <img :src="d.imgurl" alt="" class="recom-img">
                 </div>
@@ -33,6 +33,9 @@ export default {
             }).catch(err => {
                 console.log(err);
             })
+        },
+        select(d){
+            this.$emit('select',d)
         }
     },
     created(){
