@@ -21,7 +21,9 @@ module.exports = merge(base, {
         "/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg",
         "/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg",
         "/v8/fcg-bin/v8.fcg",
-        "/v8/fcg-bin/fcg_v8_singer_track_cp.fcg"
+        "/v8/fcg-bin/fcg_v8_singer_track_cp.fcg",
+        "/splcloud/fcgi-bin/gethotkey.fcg",
+        "/splcloud/fcgi-bin/smartbox_new.fcg"
       ],
       target:"https://c.y.qq.com/",
       changeOrigin:true,

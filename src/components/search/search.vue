@@ -1,10 +1,66 @@
 <template>
-  <div>
-    <h1>搜素页</h1>
+  <div class="search">
+    <div class="search-box-wrapper">
+      <search-box @queryChange="change"></search-box>
+    </div>
+    <div class="shortcut-wrapper" v-show="show">
+      <div class="shortcut">
+        <div class="hot-key">
+          <h1 class="title">热门搜索</h1>
+          <ul>
+            <li class="item" v-for="(key,i) in hotkey" :key="i">
+              {{key.k}}
+            </li>
+          </ul>
+        </div>
+        <div class="search-history"></div>
+      </div>
+    </div>
+    <div class="search-result" v-show="!show">
+      <Suggest :result="searchData"></Suggest>
+    </div>
   </div>
 </template>
 
 <script>
+import SearchBox from './search-box'
+import Suggest from './suggest'
+import { getHotKey,searchKey } from '../../api/search'
+export default {
+  data() {
+    return {
+      hotkey: [],
+      searchData: [],
+      show: true
+    }
+  },
+  methods: {
+    _getHotKey(){
+      getHotKey().then(data=>{
+        this.hotkey = data
+      })
+    },
+    change(query){
+      if(query==''){
+        this.show = true
+        return ;
+      }
+      this.show = false
+      // 获取query相关的搜索结果
+      searchKey(query).then(data=>{
+        this.searchData = data
+      })
+    }
+  },
+  created() {
+    this._getHotKey()
+  },
+  components: {
+    SearchBox,
+    Suggest
+  }
+}
+
 </script>
 
 <style lang="stylus" >
