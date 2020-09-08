@@ -31,7 +31,20 @@ module.exports = merge(base, {
         referer:"https://c.y.qq.com",
         host:"c.y.qq.com"
       }
-    }],
+    },
+    {
+      context: [
+        '/cgi-bin/musicu.fcg',
+        '/cgi-bin/musics.fcg'
+      ],
+      target: 'https://u.y.qq.com',
+      changeOrigin: true,
+      headers: {
+        referer: "https://u.y.qq.com",
+        host: 'u.y.qq.com'
+      }
+    }
+  ],
     before(app){
       // 跳转到歌手页
       app.get('/singer/:id',(req,res)=>{

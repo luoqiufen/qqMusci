@@ -9,12 +9,13 @@ strMediaMid 歌曲id
 singer  歌手
 */
 export default class Song {
-    constructor({albummid,albumname,songid,songname,strMediaMid,singer}){
+    constructor({albummid,albumname,songid,songname,strMediaMid,singer},url){
         this.albummid = albummid;
         this.albumname = albumname;
         this.songid = songid;
         this.songname = songname;
         this.strMediaMid = strMediaMid;
         this.singer = singer;
+        this.url = url;
     }
 }

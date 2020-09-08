@@ -216,8 +216,68 @@ qq音乐
     新建RecommendDetail.vue
     配置相关路由
     在recommend.vue中设置router-view
-    在recommend组件中
+    在recommend-list组件给每一个li添加单击事件，处理选择某个歌单的操作，派发自定义事件select给父组件
+    到recommend组件中调用recommendList组件的地方绑定自定义事件select
+    处理select事件：设置状态(将子组件传递的数据保存进singerInfo中)，路由跳转(跳转到recomDetail组件中)
+    在recomDetail中定义获取数据的方法，调用api中的recommend.js发送异步请求获取歌单歌曲列表，将数据在调用musicList组件时传递给去(保证数据结构一致)
 
+10. 搜索页
+    新建api/search.js用于获取搜索页的数据
+    新建search/search.vue 搜索的根组件
+        search/search-box.vue 搜索框
+        search/suggest.vue 搜索结果
+    在search组件中引入search-box和suggest
+    热门搜索：
+        search中为输入关键字时，会显示一部分的人们关键字
+        api中发送请求获取数据，取其中一部分数据返回给search解析，遍历显示
+    搜索框：
+        给input添加v-model，在data中定义对应的属性 query
+        监听query值的变化，实时向父组件派发事件queryChange，同时将数据传递给父组件
+        父组件接收数据并调用api发送请求获取对应关键字搜索到的数据，解析数据，然后再将数据返回,绑定给suggest组件遍历
+
+11. 排行榜
+    rank.vue ，api/rank.js
+    rank组件创建时发送请求获取数据
+    rank.js使用axios发送请求(配置webpack.dev.js，域名与之前不一样，需要重新配置)
+    获取到数据后，先查看数据结构，然后解析数据，取需要的数据返回
+    rank.vue遍历数据(数据结构层次深，需要多次使用v-for)
+    最后引入Scroll，实现滚动
+
+  
+12. 播放功能
+    播放组件是一个公共组件，无论在哪个地方都可以播放，所以播放组件的状态必定是全局的
+    使用vuex来全局管理播放状态：
+    state中，定义状态
+        1. 播放/暂停 - playing: true/false
+        2. 播放列表 - playList: []
+        3. 当前播放索引 - currentIndex: -1
+        4. 播放模式 - playMode: 
+            顺序(ORDER - 1)
+            循环(LOOP - 2)
+            随机(RANDOM - 0)
+        5. 播放形式 - fullScreen: true/false
+        6. 播放顺序列表 - orderList: []
+    getters中，定义对应获取状态的方法
+        1. 获取播放状态 - getPlaying
+        2. 获取播放列表 - getPlayList
+        3. 获取当前播放索引 - getCurrentIndex
+        4. 获取播放模式 - getPlayMode
+        5. 获取播放形式 - getFullScreen
+        6. 获取播放顺序列表 - getOrderList
+        7. 获取当前播放歌曲 - getCurrentSong
+        return state.playList[state.currentIndex] || {}
+    mutations中，设置对应的方法
+        1. 设置播放状态 - setPlaying
+        2. 设置播放列表 - setPlayList
+        3. 设置当前播放索引 - setCurrentIndex
+        4. 设置播放模式 - setPlayMode
+        5. 设置播放形式 - setFullScreen
+        6. 设置播放列表 - setOrderList
+    actions中，设置播放
+        selectPlay
+        当点击某首歌曲时，即开始播放该歌曲，需要修改多个数据：setPlaying，setPlayList，setCurrentIndex，setOrderList
+
+    play.vue组件
  
 
 

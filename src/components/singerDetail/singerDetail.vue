@@ -20,7 +20,7 @@ export default {
 		_getSongList(){
 			getSongList(this.singer.fid).then(list => {
 				list.forEach(val=>{
-					this.songs.push(new Song(val.musicData))
+					this.songs.push(new Song(val.musicData,""))
 				})
 			})
 		}

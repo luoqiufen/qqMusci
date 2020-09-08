@@ -1,18 +1,34 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" v-model="query" placeholder="请输入歌手名或歌曲名" class="box"/>
-    <i class="icon-dismiss"></i>
+    <input ref="query" v-model="query" placeholder="请输入歌手名或歌曲名" class="box" @blur="cache"/>
+    <i class="icon-dismiss" @click="clear" v-show="query!=''"></i>
   </div>
 </template>
 
 <script >
+import bus from '../../base/bus/bus'
 
 export default {
   data() {
     return {
       query: ""
     }
+  },
+  methods: {
+    clear(){
+      this.query = ""
+    },
+    cache(){
+      this.$emit("cache",this.query)
+    }
+  },
+  mounted() {
+    // 挂载后监听bus中数据的变化
+    bus.$on("chooseKey",data=>{
+      // 将数据赋值给query属性
+      this.query = data
+    })
   },
   watch: {
     query(newVal){
